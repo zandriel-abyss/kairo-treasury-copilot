@@ -75,51 +75,109 @@ kairo/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+
-- Required packages: pandas, numpy, statsmodels, scikit-learn
+- Python 3.10+ (Python 3.8+ may work but 3.10+ recommended)
+- Git (for cloning the repository)
 
-### Installation
+### Quick Start (Recommended)
 
+**1. Clone the repository:**
 ```bash
-# Clone or navigate to the kairo directory
-cd kairo
+git clone https://github.com/zandriel-abyss/kairo-treasury-copilot.git
+cd kairo-treasury-copilot
+```
+
+**2. Set up virtual environment and install dependencies:**
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# On macOS/Linux:
+source .venv/bin/activate
+# On Windows:
+.\.venv\Scripts\activate
 
 # Install dependencies
-pip install pandas numpy statsmodels scikit-learn
-
-# Run tests to verify installation
-python tests/test_fx_model.py
+pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-### Usage
-
-#### Interactive Dashboard (Enhanced User Experience)
+**3. Launch Kairo (Unified Launcher):**
 ```bash
-# Start the Streamlit dashboard
+python launcher.py
+```
+
+You'll see a menu:
+- **Option 1**: Launch CLI (interactive command-line interface)
+- **Option 2**: Launch Dashboard (web-based Streamlit interface)
+- **Option 3**: Exit
+
+### Alternative Launch Methods
+
+#### Option A: Unified Launcher (Recommended)
+```bash
+python launcher.py
+```
+Choose between CLI or Dashboard from the menu.
+
+#### Option B: Direct CLI Launch
+```bash
+python interface/interface_cli.py
+```
+
+#### Option C: Direct Dashboard Launch
+```bash
 streamlit run interface/dashboard.py
 ```
+Then open your browser to the URL shown (typically `http://localhost:8501`).
 
-The dashboard provides:
+### Verify Installation
+
+**Quick Verification:**
+```bash
+# Run automated demo (shows all features)
+python demo.py
+
+# Run unit tests
+python tests/test_fx_model.py
+
+# Run full system integration tests
+python tests/test_system_integration.py
+```
+
+**What to expect:**
+- ✅ Demo should complete without errors
+- ✅ Tests should show "passed" status
+- ✅ CLI/Dashboard should start and show menus
+
+### Usage Guide
+
+#### 🎯 Unified Launcher (`launcher.py`)
+The easiest way to start Kairo. Simply run:
+```bash
+python launcher.py
+```
+Then choose:
+- **1** for CLI (best for terminal users, automation, or quick queries)
+- **2** for Dashboard (best for visual analysis, charts, and interactive exploration)
+
+#### 💻 CLI Interface (`interface/interface_cli.py`)
+Interactive command-line interface perfect for:
+- 📄 **Analyze Specific Payment** - Get recommendations for individual invoices
+- 📊 **Portfolio Recommendations** - Bulk analysis of upcoming payments
+- 💱 **FX Rate Analysis** - Direct FX prediction queries with optional SHAP explainability
+- 👥 **Payment Behavior Analysis** - Historical pattern insights
+- 🔄 **Netting Opportunities** - Natural hedging identification
+- 💾 **Export Recommendations** - CSV export for integration
+
+#### 📊 Dashboard Interface (`interface/dashboard.py`)
+Web-based Streamlit dashboard with:
 - 🏠 **Dashboard Overview** - Key metrics, portfolio health, and cash flow charts
-- 💱 **FX Rate Analysis** - Interactive charts, predictions, and model performance
+- 💱 **FX Rate Analysis** - Interactive charts, predictions, SHAP explainability, and model performance
 - 👥 **Behavior Insights** - Payment/collection pattern analysis with monthly trends
 - 🔄 **Netting Opportunities** - Natural hedging identification and currency optimization
 - 💡 **Recommendations** - AI-powered payment timing with confidence scores and export
 - 🎲 **Treasury Simulation** - Comprehensive scenario comparison (AI vs. Current vs. Conservative strategies)
-
-#### CLI Interface (Programmatic Access)
-```bash
-# Start the interactive CLI
-python interface/interface_cli.py
-```
-
-The CLI provides:
-- 📄 **Analyze Specific Payment** - Get recommendations for individual invoices
-- 📊 **Portfolio Recommendations** - Bulk analysis of upcoming payments
-- 💱 **FX Rate Analysis** - Direct FX prediction queries
-- 👥 **Payment Behavior Analysis** - Historical pattern insights
-- 🔄 **Netting Opportunities** - Natural hedging identification
-- 💾 **Export Recommendations** - CSV export for integration
 
 #### Direct Module Usage
 ```python
@@ -307,10 +365,93 @@ This is an MVP built for explainability and modularity. Each module should be in
 - Use behavioral data over static assumptions
 - Document all major functions with examples
 
+### Testing & Verification
+
+#### Understanding Test Results
+
+**FX Model Test (`test_fx_model.py`):**
+```
+🧪 Testing FX Model...
+✅ FX prediction successful: 0.8669
+   Confidence: 92.4%
+   Delay favorable: False
+```
+**What this means:**
+- ✅ **Prediction successful**: The model can predict FX rates (in this case, USD/EUR = 0.8669)
+- ✅ **Confidence: 92.4%**: The model is 92.4% confident in this prediction (very high = good)
+- ✅ **Delay favorable: False**: For this currency pair, delaying payment is NOT recommended (rate expected to move unfavorably)
+
+```
+🧪 Testing Historical Performance...
+✅ Historical performance: 50.0% hit rate
+   Total predictions: 328
+```
+**What this means:**
+- ✅ **50% hit rate**: The model correctly predicted the direction (up/down) 50% of the time over 328 historical predictions
+- 📊 **328 predictions**: Tested on 328 historical data points
+- 💡 **Note**: 50% is baseline (coin flip). Higher is better, but FX markets are inherently difficult to predict. The model's value is in confidence bands and explainability, not just directional accuracy.
+
+#### Verification Methods
+
+**1. Automated Tests (Recommended First Step):**
+```bash
+# Quick unit test (FX model only)
+python tests/test_fx_model.py
+
+# Full system integration test (all modules)
+python tests/test_system_integration.py
+```
+
+**2. Interactive Demo (See Everything Work):**
+```bash
+# Run the full feature demonstration
+python demo.py
+```
+This will show:
+- ✅ Data loading and processing
+- ✅ FX predictions with SHAP explanations
+- ✅ Payment behavior analysis
+- ✅ Netting optimization
+- ✅ AI recommendations
+- ✅ Strategy simulations
+
+**3. Manual Verification via Launcher:**
+```bash
+# Start launcher
+python launcher.py
+
+# Choose option 1 (CLI) and try:
+# - Menu option 3: FX Rate Analysis
+# - Menu option 4: Payment Behavior Analysis
+# - Menu option 1: Analyze Specific Payment
+
+# Choose option 2 (Dashboard) and verify:
+# - Dashboard loads without errors
+# - Charts display correctly
+# - FX predictions generate
+```
+
+**4. Quick Smoke Test:**
+```bash
+# Test that data loads correctly
+python -c "from modules.data_ingest import get_data_loader; loader = get_data_loader(); print(f'AP: {len(loader.load_ap_data())} records'); print(f'AR: {len(loader.load_ar_data())} records'); print(f'FX: {len(loader.load_fx_data())} records')"
+```
+
+**5. Build Windows Executable (Optional):**
+On a Windows machine:
+```bash
+pip install pyinstaller
+pyinstaller --onefile launcher.py
+# Result: dist/launcher.exe (standalone executable)
+```
+
 ### Testing
 ```bash
 # Run FX model tests
 python tests/test_fx_model.py
+
+# Run full system integration tests
+python tests/test_system_integration.py
 
 # Add more test files following the same pattern
 # tests/test_[module_name].py
