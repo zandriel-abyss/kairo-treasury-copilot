@@ -1,0 +1,21 @@
+.# Python / environment
+__pycache__/
+*.py[cod]
+*.pyo
+
+.venv/
+venv/
+env/
+
+# OS / editor noise
+.DS_Store
+.idea/
+.vscode/
+
+# Bytecode / build artifacts
+*.egg-info/
+dist/
+build/
+
+# Local tooling
+.cursor/
